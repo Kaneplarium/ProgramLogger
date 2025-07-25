@@ -1,16 +1,8 @@
 class ProgrammLog {
     private $eintraege;
-    private $logVerzeichnis;
-    private $logDatei;
 
     public function __construct() {
         $this->eintraege = array();
-        $this->logVerzeichnis = $_SERVER['HOME'] . '/Programm Logger';
-        $this->logDatei = $this->logVerzeichnis . '/' . date('Y-m-d') . '.log';
-
-        if (!file_exists($this->logVerzeichnis)) {
-            mkdir($this->logVerzeichnis, 0777, true);
-        }
     }
 
     public function addEintrag(ProgrammEintrag $eintrag) {
@@ -19,20 +11,6 @@ class ProgrammLog {
 
     public function getEintraege() {
         return $this->eintraege;
-    }
-
-    public function schreibeLog() {
-        $logInhalt = '';
-        foreach ($this->eintraege as $eintrag) {
-            $logInhalt .= "Programm: " . $eintrag->getProgrammName() . "\n";
-            $logInhalt .= "Prozess-ID: " . $eintrag->getProzessId() . "\n";
-            $logInhalt .= "Startzeit: " . $eintrag->getStartzeit() . "\n";
-            $logInhalt .= "Endzeit: " . $eintrag->getEndzeit() . "\n";
-            $logInhalt .= "Benutzer: " . $eintrag->getBenutzer() . "\n";
-            $logInhalt .= "Kommandozeile: " . $eintrag->getKommandozeile() . "\n\n";
-        }
-
-        file_put_contents($this->logDatei, $logInhalt, FILE_APPEND);
     }
 }
 
@@ -86,4 +64,12 @@ $log = new ProgrammLog();
 $eintrag = new ProgrammEintrag("Google Chrome", 1234, time(), "Max Mustermann", "C:\\Program Files\\Google\\Chrome\\chrome.exe");
 $log->addEintrag($eintrag);
 
-$log->schreibeLog();
+$eintraege = $log->getEintraege();
+foreach ($eintraege as $eintragAusgabe) {
+    echo "Programm: " . $eintragAusgabe->getProgrammName() . "\n";
+    echo "Prozess-ID: " . $eintragAusgabe->getProzessId() . "\n";
+    echo "Startzeit: " . $eintragAusgabe->getStartzeit() . "\n";
+    echo "Endzeit: " . $eintragAusgabe->getEndzeit() . "\n";
+    echo "Benutzer: " . $eintragAusgabe->getBenutzer() . "\n";
+    echo "Kommandozeile: " . $eintragAusgabe->getKommandozeile() . "\n\n";
+}
