@@ -1,0 +1,75 @@
+class ProgrammLog {
+    private $eintraege;
+
+    public function __construct() {
+        $this->eintraege = array();
+    }
+
+    public function addEintrag(ProgrammEintrag $eintrag) {
+        $this->eintraege[] = $eintrag;
+    }
+
+    public function getEintraege() {
+        return $this->eintraege;
+    }
+}
+
+class ProgrammEintrag {
+    private $programmName;
+    private $prozessId;
+    private $startzeit;
+    private $endzeit;
+    private $benutzer;
+    private $kommandozeile;
+
+    public function __construct($programmName, $prozessId, $startzeit, $benutzer, $kommandozeile) {
+        $this->programmName = $programmName;
+        $this->prozessId = $prozessId;
+        $this->startzeit = $startzeit;
+        $this->benutzer = $benutzer;
+        $this->kommandozeile = $kommandozeile;
+    }
+
+    public function getProgrammName() {
+        return $this->programmName;
+    }
+
+    public function getProzessId() {
+        return $this->prozessId;
+    }
+
+    public function getStartzeit() {
+        return $this->startzeit;
+    }
+
+    public function getEndzeit() {
+        return $this->endzeit;
+    }
+
+    public function setEndzeit($endzeit) {
+        $this->endzeit = $endzeit;
+    }
+
+    public function getBenutzer() {
+        return $this->benutzer;
+    }
+
+    public function getKommandozeile() {
+        return $this->kommandozeile;
+    }
+}
+
+$log = new ProgrammLog();
+
+$eintrag = new ProgrammEintrag("Google Chrome", 1234, time(), "Max Mustermann", "C:\\Program Files\\Google\\Chrome\\chrome.exe");
+$log->addEintrag($eintrag);
+
+$eintraege = $log->getEintraege();
+foreach ($eintraege as $eintragAusgabe) {
+    echo "Programm: " . $eintragAusgabe->getProgrammName() . "\n";
+    echo "Prozess-ID: " . $eintragAusgabe->getProzessId() . "\n";
+    echo "Startzeit: " . $eintragAusgabe->getStartzeit() . "\n";
+    echo "Endzeit: " . $eintragAusgabe->getEndzeit() . "\n";
+    echo "Benutzer: " . $eintragAusgabe->getBenutzer() . "\n";
+    echo "Kommandozeile: " . $eintragAusgabe->getKommandozeile() . "\n\n";
+}
